@@ -46,7 +46,21 @@ def remove_previous(dest: Path) -> None:
     skills = dest / "skills"
     if skills.is_dir():
         for entry in skills.iterdir():
-            if entry.is_dir() and SEO_SKILL_RE.match(entry.name):
+            if not entry.is_dir() or not SEO_SKILL_RE.match(entry.name):
+                continue
+            # Preserve the isolated Python environment across reinstalls. The
+            # runtime's own state file decides whether it still matches the
+            # requirements; a stale env is rebuilt by `claude-seo setup`.
+            venv = entry / ".venv"
+            if entry.name == "seo" and venv.is_dir():
+                for child in entry.iterdir():
+                    if child.name == ".venv":
+                        continue
+                    if child.is_dir() and not child.is_symlink():
+                        shutil.rmtree(child)
+                    else:
+                        child.unlink()
+            else:
                 shutil.rmtree(entry)
     agents = dest / "agents"
     if agents.is_dir():
