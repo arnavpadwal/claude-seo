@@ -48,13 +48,14 @@ def remove_previous(dest: Path) -> None:
         for entry in skills.iterdir():
             if not entry.is_dir() or not SEO_SKILL_RE.match(entry.name):
                 continue
-            # Preserve the isolated Python environment across reinstalls. The
-            # runtime's own state file decides whether it still matches the
-            # requirements; a stale env is rebuilt by `claude-seo setup`.
-            venv = entry / ".venv"
-            if entry.name == "seo" and venv.is_dir():
+            # Preserve the isolated Python environment and its browser cache
+            # across reinstalls. The runtime's own state file decides whether
+            # the environment still matches the requirements; a stale env is
+            # rebuilt by `claude-seo setup`.
+            keep = {".venv", "runtime-state.json", "ms-playwright"}
+            if entry.name == "seo" and (entry / ".venv").is_dir():
                 for child in entry.iterdir():
-                    if child.name == ".venv":
+                    if child.name in keep:
                         continue
                     if child.is_dir() and not child.is_symlink():
                         shutil.rmtree(child)
