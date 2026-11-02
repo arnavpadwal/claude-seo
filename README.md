@@ -26,6 +26,7 @@
 <p align="center">
   <a href="https://github.com/AgriciDaniel/claude-seo/actions/workflows/ci.yml"><img src="https://github.com/AgriciDaniel/claude-seo/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://claude.com/product/claude-code"><img src="https://img.shields.io/badge/Claude%20Code-Plugin-blue" alt="Claude Code plugin" /></a>
+  <a href="https://opencode.ai"><img src="https://img.shields.io/badge/OpenCode-2.x-blue" alt="OpenCode 2.x" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
   <a href="https://github.com/AgriciDaniel/claude-seo/releases"><img src="https://img.shields.io/github/v/release/AgriciDaniel/claude-seo" alt="Version" /></a>
   <a href="tests/"><img src="https://img.shields.io/badge/tests-1077%20passing-brightgreen" alt="Tests" /></a>
@@ -37,7 +38,7 @@
   <a href="https://trendshift.io/repositories/21053"><img src="https://trendshift.io/api/badge/repositories/21053" alt="AgriciDaniel/claude-seo on Trendshift: GitHub Trending #12 Repository Of The Day" width="250" height="55" /></a>
 </p>
 
-**Claude SEO is a free SEO plugin for Claude Code.** Give it any website and it runs a full SEO audit in 10 to 15 minutes, then hands you a clear action plan, sorted by what matters most.
+**Claude SEO is a free SEO plugin for Claude Code.** Give it any website and it runs a full SEO audit in 10 to 15 minutes, then hands you a clear action plan, sorted by what matters most. It also runs in [OpenCode 2.x](opencode/README.md) through the OpenCode port.
 
 It checks everything a good SEO consultant would:
 
@@ -261,6 +262,23 @@ claude                                   # start Claude Code
 /seo local https://example.com           # local SEO and Google Business Profile
 ```
 
+### OpenCode
+
+This fork also runs in [OpenCode](https://opencode.ai) 2.x. The port installs the same skills and agents into OpenCode's global config and exposes the same `/seo` command:
+
+```bash
+git clone --depth 1 https://github.com/arnavpadwal/claude-seo.git
+bash claude-seo/opencode/install.sh
+```
+
+Then reload OpenCode and run:
+
+```text
+/seo audit https://example.com
+```
+
+The installer rewrites the Claude-specific paths, converts the agents to OpenCode's V2 frontmatter, and builds the same isolated Python runtime. It does not modify `opencode.json`. See [opencode/README.md](opencode/README.md) for options, the extension/MCP matrix, and uninstall.
+
 ## FAQ
 
 <details>
@@ -323,7 +341,7 @@ Claude SEO runs inside Claude Code, so the pages and data it analyzes are sent t
 <summary><b>Good to know: requirements, limits and uninstall</b></summary>
 <br />
 
-**Requirements.** Claude Code 1.0.33 or newer and Python 3.11 to 3.14. `/seo setup` installs the headless browser for you.
+**Requirements.** Claude Code 1.0.33 or newer, or OpenCode 2.x through the [OpenCode port](opencode/README.md), and Python 3.11 to 3.14. `/seo setup` installs the headless browser for you.
 
 **Cost of a full audit.** Five agents that need more judgment run on Opus and the rest on Sonnet, so a full `/seo audit` uses more of your Claude plan than a single-page check. You can change any agent's model in its file under [`agents/`](agents/).
 
@@ -335,6 +353,8 @@ Claude SEO runs inside Claude Code, so the pages and data it analyzes are sent t
 git clone --depth 1 https://github.com/AgriciDaniel/claude-seo.git
 bash claude-seo/uninstall.sh
 ```
+
+For OpenCode, run `bash opencode/uninstall.sh` (add `--yes` to skip the prompt).
 
 </details>
 
@@ -370,7 +390,7 @@ Setup guides live in [`extensions/`](extensions/).
 | [FLOW](https://github.com/AgriciDaniel/flow) | An evidence-led SEO framework with 42 AI prompts |
 | [AI Marketing Claude](https://github.com/zubair-trabzada/ai-marketing-claude) | Community suite for copy, email, ads and funnels |
 
-**Docs:** [Installation](docs/INSTALLATION.md) · [Commands](docs/COMMANDS.md) · [Architecture](docs/ARCHITECTURE.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) · [Extensions setup](docs/MCP-INTEGRATION.md) · [Security](SECURITY.md) · [Privacy](PRIVACY.md) · [Contributors](CONTRIBUTORS.md)
+**Docs:** [Installation](docs/INSTALLATION.md) · [OpenCode port](opencode/README.md) · [Commands](docs/COMMANDS.md) · [Architecture](docs/ARCHITECTURE.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) · [Extensions setup](docs/MCP-INTEGRATION.md) · [Security](SECURITY.md) · [Privacy](PRIVACY.md) · [Contributors](CONTRIBUTORS.md)
 
 ## License and contributing
 

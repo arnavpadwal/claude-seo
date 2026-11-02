@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **OpenCode 2.x port.** `opencode/install.sh` installs the same skills and
+  agents into `~/.config/opencode`, converts agent frontmatter to OpenCode 2
+  (`mode: subagent`, `steps`), rewrites `${CLAUDE_PLUGIN_ROOT}` to the installed
+  path, adds a `/seo` command, and reuses the isolated Python runtime.
+  `opencode/uninstall.sh` removes only the port's entries. See
+  [`opencode/README.md`](opencode/README.md).
+
 ## [2.5.0] - 2026-10-22
 
 Security and accuracy fixes from a full audit, and Claude Desktop installs again.
